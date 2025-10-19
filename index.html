@@ -160,12 +160,17 @@
       .menu-btn{display:inline-flex}
       nav{position:static;display:none}
       nav.open{display:block;position:relative;box-shadow:none;padding:0;margin-top:8px}
-      /* Make tables scroll horizontally on small screens */
-      table{width:100%;display:block;overflow:auto}
-      thead,tbody,th,td,tr{display:table;table-layout:fixed;width:100%}
-      thead{display:table-header-group}
-      tbody{display:table-row-group}
-      th,td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      /* Convert table to cards on mobile */
+      #tbl{display:none}
+      .alerts-header{margin-bottom:16px}
+      .alerts-cards{display:grid;gap:12px;padding:16px}
+      .alert-card{background:#fff;border:1px solid var(--line);padding:16px;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
+      .alert-card .title{font-weight:600;color:var(--ink);font-size:16px;margin-bottom:8px}
+      .alert-card .location{color:var(--text);margin-bottom:4px}
+      .alert-card .date{color:var(--muted);font-size:14px}
+      .alert-card .meta{display:flex;gap:12px;margin-top:12px;color:var(--muted);font-size:14px;align-items:center}
+      .alert-card .status{color:var(--brand);font-weight:500}
+      .alert-card .level{background:rgba(10,122,61,0.1);color:var(--brand);padding:4px 8px;border-radius:6px;font-weight:500}
       /* Modal should be full-width with some margin */
       .modal{max-width:560px;margin:0 12px;border-radius:10px}
       .modal .bd{padding:12px}
@@ -537,7 +542,7 @@
         if(!(window.matchMedia && window.matchMedia('(max-width:600px)').matches)){
           const wrapper = document.querySelector('#tbl').closest('.card');
           const cards = wrapper.querySelector('.alerts-cards');
-          if(cards){ cards.remove(); wrapper.querySelector('.bd').style.display = ''; tbl.style.display = ''; }
+          if(cards){ cards.remove(); wrapper.querySelector('.bd').style.display = ''; tbl.style.display = 'table'; }
           return;
         }
         const wrapper = document.querySelector('#tbl').closest('.card');
@@ -549,8 +554,17 @@
         cardsWrap.className = 'alerts-cards';
         rows.forEach(r=>{
           const cells = Array.from(r.cells).map(c=>c.innerText.trim());
-          const card = document.createElement('article'); card.className='alert-card';
-          card.innerHTML = `<strong>${cells[1] || ''}</strong><div style="font-weight:600;margin-top:6px">${cells[2]||''} · ${cells[0]||''}</div><div class='meta'><span>${cells[3]||''}</span><span>Level ${cells[4]||''}</span></div>`;
+          const card = document.createElement('article'); 
+          card.className = 'alert-card';
+          card.innerHTML = `
+            <div class="title">${cells[1] || ''}</div>
+            <div class="location">${cells[2] || ''}</div>
+            <div class="date">${cells[0] || ''}</div>
+            <div class="meta">
+              <span class="status">${cells[3] || ''}</span>
+              <span class="level">Level ${cells[4] || ''}</span>
+            </div>
+          `;
           cardsWrap.appendChild(card);
         });
         // hide table and insert cards
