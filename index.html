@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <meta name="description" content="PDSRU Sindh — provincial disease surveillance and response unit. Early detection, rapid response and public health resources for Sindh province." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a7a3d'/%3E%3Ctext x='50' y='56' font-size='48' text-anchor='middle' fill='%23fff' font-family='Inter,Arial,Helvetica' font-weight='700'%3EP%3C/text%3E%3C/svg%3E" />
   <title>PDSRU Sindh — Provincial Disease Surveillance & Response Unit</title>
@@ -27,8 +27,9 @@
     *{box-sizing:border-box}
   .skip{position:absolute;left:8px;top:8px;padding:8px 12px;background:#000;color:#fff;border-radius:8px;z-index:40;transform:translateY(-120%);transition:transform .18s}
   .skip:focus{transform:translateY(0);outline:3px solid #ffd54d}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
-    h1,h2,h3{color:var(--ink);margin:0 0 8px 0}
+    html{height:100%;overflow-x:hidden}
+    body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial;min-height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    h1,h2,h3{color:var(--ink);margin:0 0 8px 0;max-width:100%;overflow-wrap:break-word;word-wrap:break-word}
     h1{font-weight:800;letter-spacing:-.02em}
     h2{font-weight:700}
     p{margin:0}
@@ -36,10 +37,12 @@
     .wrap{max-width:1160px;margin:0 auto;padding:16px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .crest{--s:44px;width:var(--s);height:var(--s);border-radius:10px;background:radial-gradient(circle at 30% 30%,#13c271,#0a7a3d 60%);position:relative;box-shadow:var(--shadow)}
+    header{position:sticky;top:0;z-index:20;background:linear-gradient(to bottom, rgba(255,255,255,0.98), rgba(255,255,255,0.96));border-bottom:1px solid rgba(229,231,235,0.8);backdrop-filter:blur(8px)}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;padding:4px 0}
+    .brand{display:flex;align-items:center;gap:12px;transition:transform 0.2s}
+    .brand:hover{transform:translateY(-1px)}
+    .crest{--s:44px;width:var(--s);height:var(--s);border-radius:10px;background:radial-gradient(circle at 30% 30%,#13c271,#0a7a3d 60%);position:relative;box-shadow:0 2px 12px rgba(10,122,61,0.2);transition:transform 0.2s}
+    .crest:hover{transform:scale(1.05)}
     .crest::after{content:"";position:absolute;inset:7px;border-radius:8px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%230a7a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l8-4 8 4v6c0 5-8 9-8 9S4 18 4 13V7z"/></svg>') center/66% no-repeat}
     .org{font-weight:800}
     .tag{font:12px/1.3 Inter;color:var(--muted)}
@@ -51,21 +54,23 @@
     .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:.2s}
     .switch.on{background:#bfe3cc}
     .switch.on .knob{left:25px}
-    .btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer}
-    .btn.primary{background:var(--brand);border:0;color:#fff}
-    .btn.primary:hover{background:var(--brand-600)}
-  .btn:focus{outline:3px solid rgba(10,122,61,.18);outline-offset:2px}
+    .btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:12px 24px;font-weight:700;cursor:pointer;transition:all 0.2s ease-out;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
+    .btn.primary{background:linear-gradient(160deg, #13c271 0%, var(--brand) 100%);border:0;color:#fff;box-shadow:0 2px 8px rgba(10,122,61,0.25)}
+    .btn.primary:hover{background:linear-gradient(160deg, #15d277 0%, #0b8544 100%);transform:translateY(-1px);box-shadow:0 4px 12px rgba(10,122,61,0.3)}
+    .btn:not(.primary):hover{background:#f8fafc;border-color:#d1d5db;transform:translateY(-1px)}
+    .btn:focus{outline:3px solid rgba(10,122,61,.18);outline-offset:2px}
 
     @media(min-width:980px){nav{display:flex}}
 
     /* Mobile menu (small screens) */
-    .menu-btn{display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid var(--line);background:#fff}
-    .menu-btn svg{width:20px;height:20px}
+    .menu-btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;width:48px;height:48px;padding:0;border-radius:8px;border:1px solid var(--line);background:#fff;touch-action:none;-webkit-tap-highlight-color:transparent;user-select:none}
+    .menu-btn svg{width:24px;height:24px;pointer-events:none}
     @media(max-width:979px){
       /* Mobile nav: fixed drawer to avoid layout jumps and odd focus behavior */
-      nav{position:fixed;left:12px;right:12px;top:56px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,.12);display:none;max-width:calc(100% - 24px);z-index:30}
-      nav.open{display:block}
-      nav a{display:block;padding:12px 8px;border-radius:8px}
+      nav{position:absolute;right:0;top:100%;background:var(--card);padding:8px;margin-top:4px;border-radius:12px;box-shadow:0 4px 16px rgba(15,23,42,.1);visibility:hidden;width:200px;z-index:30;transform:translateY(-10px);opacity:0;transition:transform 0.2s ease-out,opacity 0.2s ease-out,visibility 0.2s}
+      nav.open{visibility:visible;transform:translateY(0);opacity:1}
+      nav a{display:block;padding:10px 16px;border-radius:6px;touch-action:manipulation;font-size:15px;transition:background 0.15s;color:var(--text)}
+      nav a:active{background:rgba(10,122,61,.08)}
       nav a:focus{outline:3px solid rgba(10,122,61,.12);background:linear-gradient(180deg,rgba(10,122,61,.03),transparent)}
     }
 
@@ -77,27 +82,35 @@
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     /* Layout */
-    .hero{padding:36px 16px}
-    .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:48px 16px;background:linear-gradient(160deg, rgba(10,122,61,0.03) 0%, rgba(255,255,255,0) 100%)}
+    .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:32px;align-items:start}
+    .card{background:var(--card);border:1px solid rgba(229,231,235,0.8);border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 24px rgba(0,0,0,0.04);backdrop-filter:blur(16px);transition:transform 0.2s,box-shadow 0.2s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,0.08),0 12px 32px rgba(0,0,0,0.06)}
     .hd{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:700}
     .bd{padding:16px}
 
     /* KPIs */
     .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    .kpi{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}
-    .k{font:12px/1.3 Inter;color:#6b7280;text-transform:uppercase;letter-spacing:.03em}
-    .v{font-size:30px;font-weight:800;color:var(--ink)}
+    .kpi{padding:16px;border:1px solid rgba(229,231,235,0.6);border-radius:12px;background:linear-gradient(160deg,#fff,#fcfcfd);box-shadow:0 1px 3px rgba(0,0,0,0.04);transition:all 0.2s ease-out}
+    .kpi:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.06);border-color:rgba(10,122,61,0.1)}
+    .k{font:12px/1.3 Inter;color:#6b7280;text-transform:uppercase;letter-spacing:.03em;transition:color 0.2s}
+    .v{font-size:30px;font-weight:800;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,0.04)}
 
     /* Minimal bars */
     .bars{height:160px;display:flex;align-items:flex-end;gap:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:#fff}
     .bar{--h:50;--c:var(--brand);width:12%;height:calc(var(--h)*1%);background:linear-gradient(180deg,var(--c),#0f8f4b);border-radius:8px}
     .xlabels{display:flex;gap:10px;justify-content:space-between;margin-top:6px;color:#6b7280;font:12px Inter}
 
-    .section{padding:22px 16px}
-    .twocol{display:grid;grid-template-columns:2fr 1fr;gap:18px}
-    .programs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-    .program{padding:14px}
+    .twocol{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+    .programs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:8px}
+    .section + .section{margin-top:20px}
+    .program{padding:24px;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+    .program::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--brand),#13c271);opacity:0;transform:translateY(-100%);transition:all 0.3s ease-out}
+    .program:hover::before{opacity:1;transform:translateY(0)}
+    .program h3{font-size:18px;margin-bottom:12px;transition:color 0.2s}
+    .program:hover h3{color:var(--brand)}
+    .program p{color:var(--muted);flex:1;line-height:1.6}
+    .program .btn{margin-top:20px;transition:all 0.2s}
 
     table{width:100%;border-collapse:collapse}
     thead{background:#f3f4f6;color:#374151}
@@ -106,8 +119,16 @@
     input[type="text"],select,input[type="file"],textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:14px Inter;background:#fff}
     textarea{min-height:120px;resize:vertical}
 
-    footer{border-top:1px solid var(--line);padding:26px 16px;color:#6b7280;background:#fff}
+    footer{border-top:1px solid var(--line);padding:48px 16px 40px;color:#6b7280;background:linear-gradient(to bottom, #fff, #f8fafc)}
+    footer a{color:inherit;text-decoration:none;transition:color 0.2s}
+    footer a:hover{color:var(--brand)}
 
+    /* Section spacing and enhanced bottom sections */
+    .section{padding:60px 16px;position:relative;border-bottom:1px solid rgba(229,231,235,0.5)}
+    .section:nth-child(even){background:linear-gradient(160deg, rgba(10,122,61,0.03) 0%, rgba(255,255,255,0) 100%)}
+    .section h2{font-size:28px;margin-bottom:24px;background:linear-gradient(90deg,var(--ink),#334155);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .section > p{color:var(--muted);max-width:700px;margin-bottom:32px}
+    
     @media(max-width:980px){
       .hero-grid,.twocol{grid-template-columns:1fr}
       .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -116,15 +137,16 @@
     /* Extra small screens (phones) */
     @media(max-width:600px){
       :root{--radius:12px}
-      body{font-size:15px}
+      body{font-size:15px;-webkit-text-size-adjust:100%;overflow-x:clip}
+      header{position:sticky;top:0;backdrop-filter:blur(8px);background:rgba(255,255,255,0.95)}
       header .wrap{padding:12px}
       .wrap{padding:12px}
-      .top{gap:8px}
+      .top{gap:12px}
       /* Make crest smaller and brand text truncated on phones */
       .crest{--s:36px}
       .hero{padding:20px 12px}
       .hero-grid{gap:14px}
-      .hero-grid > div:first-child h1{font-size:20px}
+      .hero-grid > div:first-child h1{font-size:22px;line-height:1.3;margin-bottom:12px}
       .kpis{grid-template-columns:repeat(2,1fr);gap:8px}
       .kpi{padding:10px}
       .v{font-size:22px}
@@ -173,8 +195,9 @@
     /* Header brand truncation */
     @media(max-width:560px){
       .brand{align-items:center}
-      #brand{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+      #brand{font-size:16px;white-space:normal;overflow:visible;text-overflow:clip;max-width:none;line-height:1.3;padding-right:8px}
       #tag{display:none}
+      .hero-grid > div:first-child h1{font-size:20px;line-height:1.3;white-space:normal;overflow:visible}
     }
   </style>
 </head>
@@ -353,9 +376,42 @@
   <section id="resources" class="wrap section">
     <h2 style="margin-bottom:10px">Resources & forms</h2>
     <div class="programs">
-      <div class="card program"><h3>Weekly IDSR (W1)</h3><p>Template for DHIS2 submission.</p><button class="btn" style="margin-top:8px">Download</button></div>
-      <div class="card program"><h3>Outbreak Line List</h3><p>CSV/Excel standard (case‑based).</p><button class="btn" style="margin-top:8px">Download</button></div>
-      <div class="card program"><h3>Incident Levels I–III</h3><p>Activation & escalation SOP.</p><button class="btn" style="margin-top:8px">Download</button></div>
+      <div class="card program">
+        <h3>Weekly IDSR (W1)</h3>
+        <p>Standardized template for DHIS2 weekly disease surveillance reporting. Includes all priority diseases and core indicators for comprehensive monitoring.</p>
+        <button class="btn">
+          <svg style="width:16px;height:16px;margin-right:8px;vertical-align:-3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Template
+        </button>
+      </div>
+      <div class="card program">
+        <h3>Outbreak Line List</h3>
+        <p>Comprehensive CSV/Excel format for detailed case-based outbreak reporting. Ensures standardized data collection across all districts.</p>
+        <button class="btn">
+          <svg style="width:16px;height:16px;margin-right:8px;vertical-align:-3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Format
+        </button>
+      </div>
+      <div class="card program">
+        <h3>Incident Levels I–III</h3>
+        <p>Complete SOP for incident response activation and escalation protocols. Includes decision matrices and coordination frameworks.</p>
+        <button class="btn">
+          <svg style="width:16px;height:16px;margin-right:8px;vertical-align:-3px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download SOP
+        </button>
+      </div>
   <!-- Upload Weekly Report card removed as requested -->
     </div>
   </section>
