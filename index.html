@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="PDSRU Sindh — provincial disease surveillance and response unit. Early detection, rapid response and public health resources for Sindh province." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a7a3d'/%3E%3Ctext x='50' y='56' font-size='48' text-anchor='middle' fill='%23fff' font-family='Inter,Arial,Helvetica' font-weight='700'%3EP%3C/text%3E%3C/svg%3E" />
+  <title>PDSRU Sindh — Provincial Disease Surveillance & Response Unit</title>
+  <!-- Theme: Executive Minimal (clean, light, no gimmicks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0f172a;         /* headings */
+      --text:#1f2937;        /* body */
+      --muted:#687385;       /* secondary */
+      --line:#e5e7eb;        /* borders */
+      --bg:#f8fafc;          /* page */
+      --card:#ffffff;        /* surface */
+      --brand:#0a7a3d;       /* primary */
+      --brand-600:#096836;   /* darker */
+      --accent:#0b75c9;      /* secondary */
+      --radius:14px;
+      --shadow:0 1px 2px rgba(0,0,0,.04);
+    }
+    *{box-sizing:border-box}
+  .skip{position:absolute;left:8px;top:8px;padding:8px 12px;background:#000;color:#fff;border-radius:8px;z-index:40;transform:translateY(-120%);transition:transform .18s}
+  .skip:focus{transform:translateY(0);outline:3px solid #ffd54d}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+    h1,h2,h3{color:var(--ink);margin:0 0 8px 0}
+    h1{font-weight:800;letter-spacing:-.02em}
+    h2{font-weight:700}
+    p{margin:0}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:1160px;margin:0 auto;padding:16px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .crest{--s:44px;width:var(--s);height:var(--s);border-radius:10px;background:radial-gradient(circle at 30% 30%,#13c271,#0a7a3d 60%);position:relative;box-shadow:var(--shadow)}
+    .crest::after{content:"";position:absolute;inset:7px;border-radius:8px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%230a7a3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l8-4 8 4v6c0 5-8 9-8 9S4 18 4 13V7z"/></svg>') center/66% no-repeat}
+    .org{font-weight:800}
+    .tag{font:12px/1.3 Inter;color:var(--muted)}
+    nav{display:none;gap:18px;font-weight:600}
+    nav a{color:#334155}
+    nav a:hover{color:var(--accent)}
+    .lang{display:flex;align-items:center;gap:8px}
+    .switch{position:relative;width:50px;height:28px;border-radius:999px;background:#e5e7eb;cursor:pointer}
+    .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:.2s}
+    .switch.on{background:#bfe3cc}
+    .switch.on .knob{left:25px}
+    .btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--brand);border:0;color:#fff}
+    .btn.primary:hover{background:var(--brand-600)}
+  .btn:focus{outline:3px solid rgba(10,122,61,.18);outline-offset:2px}
+
+    @media(min-width:980px){nav{display:flex}}
+
+    /* Mobile menu (small screens) */
+    .menu-btn{display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid var(--line);background:#fff}
+    .menu-btn svg{width:20px;height:20px}
+    @media(max-width:979px){
+      nav{position:absolute;right:16px;top:64px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,.08);display:none;min-width:180px}
+      nav.open{display:block}
+      nav a{display:block;padding:8px 0}
+    }
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.45);display:none;align-items:center;justify-content:center;padding:24px;z-index:80}
+    .modal{background:var(--card);border-radius:12px;max-width:720px;width:100%;box-shadow:0 12px 40px rgba(2,6,23,.28);overflow:hidden}
+    .modal .hd{border-bottom:1px solid var(--line)}
+    .modal.show,.modal-backdrop.show{display:flex}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Layout */
+    .hero{padding:36px 16px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hd{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:700}
+    .bd{padding:16px}
+
+    /* KPIs */
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .kpi{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+    .k{font:12px/1.3 Inter;color:#6b7280;text-transform:uppercase;letter-spacing:.03em}
+    .v{font-size:30px;font-weight:800;color:var(--ink)}
+
+    /* Minimal bars */
+    .bars{height:160px;display:flex;align-items:flex-end;gap:10px;padding:10px;border:1px dashed var(--line);border-radius:12px;background:#fff}
+    .bar{--h:50;--c:var(--brand);width:12%;height:calc(var(--h)*1%);background:linear-gradient(180deg,var(--c),#0f8f4b);border-radius:8px}
+    .xlabels{display:flex;gap:10px;justify-content:space-between;margin-top:6px;color:#6b7280;font:12px Inter}
+
+    .section{padding:22px 16px}
+    .twocol{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+    .programs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .program{padding:14px}
+
+    table{width:100%;border-collapse:collapse}
+    thead{background:#f3f4f6;color:#374151}
+    th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+
+    input[type="text"],select,input[type="file"],textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:14px Inter;background:#fff}
+    textarea{min-height:120px;resize:vertical}
+
+    footer{border-top:1px solid var(--line);padding:26px 16px;color:#6b7280;background:#fff}
+
+    @media(max-width:980px){
+      .hero-grid,.twocol{grid-template-columns:1fr}
+      .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .programs{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    /* Extra small screens (phones) */
+    @media(max-width:600px){
+      :root{--radius:12px}
+      body{font-size:15px}
+      header .wrap{padding:12px}
+      .wrap{padding:12px}
+      .top{gap:8px}
+      .crest{--s:40px}
+      .hero{padding:20px 12px}
+      .hero-grid{gap:14px}
+      .hero-grid > div:first-child h1{font-size:20px}
+      .kpis{grid-template-columns:repeat(2,1fr);gap:8px}
+      .kpi{padding:10px}
+      .v{font-size:22px}
+      .programs{grid-template-columns:1fr;gap:10px}
+      .program{padding:12px}
+      .btn{padding:10px;border-radius:10px;width:100%;display:inline-block;text-align:center}
+      .btn.primary{padding:10px}
+      .menu-btn{display:inline-flex}
+      nav{position:static;display:none}
+      nav.open{display:block;position:relative;box-shadow:none;padding:0;margin-top:8px}
+      /* Make tables scroll horizontally on small screens */
+      table{width:100%;display:block;overflow:auto}
+      thead,tbody,th,td,tr{display:table;table-layout:fixed;width:100%}
+      thead{display:table-header-group}
+      tbody{display:table-row-group}
+      th,td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      /* Modal should be full-width with some margin */
+      .modal{max-width:560px;margin:0 12px;border-radius:10px}
+      .modal .bd{padding:12px}
+      .bd{padding:12px}
+      .hd{padding:12px}
+      .bars{height:120px}
+    }
+    /* Team section */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .team-member{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;gap:12px;align-items:flex-start}
+  .team-pic{width:72px;height:72px;border-radius:12px;background:#f3f4f6;flex:0 0 72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700;overflow:hidden}
+  .team-pic img{width:100%;height:100%;object-fit:cover;display:block}
+    .team-info h4{margin:0 0 6px 0}
+    .team-info p{margin:0;color:var(--muted);font-size:14px}
+    @media(max-width:800px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.team-grid{grid-template-columns:1fr}.team-member{align-items:center}}
+  </style>
+</head>
+<body>
+  <a href="#hero" class="skip">Skip to content</a>
+  <header>
+    <div class="wrap top">
+      <div class="brand">
+        <div class="crest" aria-hidden="true"></div>
+        <div>
+          <div id="brand" class="org">PDSRU Sindh — Provincial Disease Surveillance & Response Unit</div>
+          <div id="tag" class="tag">Early detection · Rapid response · Safer Sindh</div>
+        </div>
+      </div>
+      <button id="menuBtn" class="menu-btn" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        <span class="sr-only">Menu</span>
+      </button>
+      <nav id="mainNav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#alerts">Alerts</a>
+        <a href="#resources">Resources</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="lang">
+        <span class="tag">EN</span>
+        <div id="toggle" class="switch" role="switch" aria-checked="false"><div class="knob"></div></div>
+        <span class="tag">اردو</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <h1 id="hero">Provincial Public Health Surveillance — Sindh</h1>
+        <p id="lead" style="margin-top:8px;max-width:70ch">PDSRU integrates indicator‑based IDSR reporting on DHIS2 with event‑based hotlines and laboratory confirmation to find outbreaks early and direct field response across all districts of Sindh.</p>
+        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn primary" id="cta">Report a Case</button>
+          <button class="btn" id="cta2">Subscribe to Alerts</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="hd">This Week in Sindh</div>
+  <div class="bd">
+            <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+              <div id="visuals" style="flex:1 1 220px;min-width:220px">
+                <canvas id="weeklyChart" aria-label="Weekly cases chart" style="width:100%;height:160px"></canvas>
+              </div>
+              <div id="threeWrap" style="width:120px;height:120px;margin-left:8px"></div>
+            </div>
+            <div class="kpis">
+            <div class="kpi"><div class="k" id="k1">Suspected cases</div><div class="v">312</div></div>
+            <div class="kpi"><div class="k" id="k2">Confirmation rate</div><div class="v">24%</div></div>
+            <div class="kpi"><div class="k" id="k3">Active outbreaks</div><div class="v">6</div></div>
+            <div class="kpi"><div class="k" id="k4">Reporting timeliness</div><div class="v">91%</div></div>
+          </div>
+          <div style="margin-top:14px">
+            <div class="bars" aria-label="Weekly IDSR cases">
+              <div class="bar" style="--h:60"></div>
+              <div class="bar" style="--h:78"></div>
+              <div class="bar" style="--h:72"></div>
+              <div class="bar" style="--h:95"></div>
+              <div class="bar" style="--h:85"></div>
+              <div class="bar" style="--h:100"></div>
+            </div>
+            <div class="xlabels"><span>W27</span><span>W28</span><span>W29</span><span>W30</span><span>W31</span><span>W32</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="wrap section">
+    <h2 style="margin-bottom:10px">Meet the team</h2>
+    <p style="margin:0 0 12px 0;color:var(--muted)">Core leadership and subject-matter experts at PDSRU Sindh.</p>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="team-pic" id="pic-asif"><img src="asif.PNG" alt="Dr Muhammad Asif Syed"></div>
+        <div class="team-info">
+          <h4>Dr Muhammad Asif Syed — Director</h4>
+          <p id="bio-asif">Dr. Muhammad Asif Syed is a public health / epidemiology expert in Sindh, Pakistan, affiliated with the provincial disease surveillance & response unit (PDSRU) under the Directorate General of Health Services (DGHS) in Sindh. He plays a leadership role in surveillance, outbreak investigation, and public-health research in the province.</p>
+        </div>
+      </div>
+      <div class="team-member">
+        <div class="team-pic" id="pic-fahad">F</div>
+        <div class="team-info">
+          <h4>Dr Fahad</h4>
+          <p id="bio-fahad">Dr Fahad Dr Fahad Ahmed Memon is a public-health professional working at the PDSRU in Sindh, Pakistan. He holds the fellowship of the Field Epidemiology & Laboratory Training Programme (FELTP) and serves in a leadership/support role (“Assistant Director / FETP Fellow”) in surveillance, outbreak investigation and response..</p>
+        </div>
+      </div>
+      <div class="team-member">
+        <div class="team-pic" id="pic-asifch">A</div>
+        <div class="team-info">
+          <h4>Dr Asif Channa</h4>
+          <p id="bio-asifch">Dr Asif Channa supports surveillance and field response activities at PDSRU. Provide a photo and details and I'll update.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="wrap section">
+    <div class="twocol">
+      <div class="card">
+        <div class="hd">Mandate</div>
+        <div class="bd">
+          <p id="aboutp">PDSRU Sindh oversees disease intelligence and outbreak response province‑wide. We operate event‑based hotlines and media listening, supervise IDSR weekly reporting on DHIS2, coordinate public health labs, and engage One Health partners under IHR (2005).</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="hd">Hotline</div>
+        <div class="bd">
+          <div><strong>Phone:</strong> 0800‑XXXXXX</div>
+          <div><strong>Email:</strong> pdsru@sindh.gov.pk</div>
+          <div><strong>Address:</strong> Health Dept., Karachi · Hyderabad</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capabilities" class="wrap section">
+    <h2 style="margin-bottom:10px">Core capabilities</h2>
+    <div class="programs">
+      <div class="card program"><h3>IDSR</h3><p>Weekly indicator reporting; thresholds, supervision, analysis & feedback.</p></div>
+      <div class="card program"><h3>Event‑based</h3><p>Hotline intake, media/social monitoring, verification, risk assessment.</p></div>
+      <div class="card program"><h3>Laboratory</h3><p>Specimen referral, confirmation networks, positivity trends.</p></div>
+      <div class="card program"><h3>Field Response</h3><p>RRT deployment with EOC partners; incident levels I–III.</p></div>
+    </div>
+  </section>
+
+  <section id="alerts" class="wrap section">
+    <div style="display:grid;grid-template-columns:1fr 320px 180px;gap:12px;align-items:center">
+      <h2 style="margin:0">Recent alerts</h2>
+      <input id="q" type="text" placeholder="Search disease, district, or status…" />
+      <select id="dist">
+        <option value="">All districts</option>
+        <option>Karachi East</option>
+        <option>Karachi South</option>
+        <option>Hyderabad</option>
+        <option>Jamshoro</option>
+        <option>Sukkur</option>
+        <option>Larkana</option>
+        <option>Shaheed Benazirabad</option>
+      </select>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="bd" style="padding:0">
+        <div style="overflow:auto">
+          <table id="tbl">
+            <caption class="sr-only">Recent public health alerts in Sindh</caption>
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Disease</th><th scope="col">District</th><th scope="col">Status</th><th scope="col">Level</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2025‑10‑18</td><td>XDR Typhoid</td><td>Karachi South</td><td>Field response</td><td><span class="tag">II</span></td></tr>
+              <tr><td>2025‑10‑16</td><td>COVID‑19 cluster</td><td>Jamshoro</td><td>Notified</td><td><span class="tag">I</span></td></tr>
+              <tr><td>2025‑10‑14</td><td>Cholera</td><td>Sukkur</td><td>Contained</td><td><span class="tag">I</span></td></tr>
+              <tr><td>2025‑10‑13</td><td>Measles</td><td>Hyderabad</td><td>Verified</td><td><span class="tag">I</span></td></tr>
+              <tr><td>2025‑10‑12</td><td>Dengue</td><td>Karachi East</td><td>Investigating</td><td><span class="tag">I</span></td></tr>
+              <tr><td>2025‑10‑11</td><td>Dog‑bite cluster</td><td>Larkana</td><td>Investigating</td><td><span class="tag">I</span></td></tr>
+              <tr><td>2025‑10‑10</td><td>Chikungunya</td><td>Shaheed Benazirabad</td><td>Verified</td><td><span class="tag">I</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resources" class="wrap section">
+    <h2 style="margin-bottom:10px">Resources & forms</h2>
+    <div class="programs">
+      <div class="card program"><h3>Weekly IDSR (W1)</h3><p>Template for DHIS2 submission.</p><button class="btn" style="margin-top:8px">Download</button></div>
+      <div class="card program"><h3>Outbreak Line List</h3><p>CSV/Excel standard (case‑based).</p><button class="btn" style="margin-top:8px">Download</button></div>
+      <div class="card program"><h3>Incident Levels I–III</h3><p>Activation & escalation SOP.</p><button class="btn" style="margin-top:8px">Download</button></div>
+  <!-- Upload Weekly Report card removed as requested -->
+    </div>
+  </section>
+
+  <section id="contact" class="wrap section">
+    <div class="twocol">
+      <div class="card">
+        <div class="hd">Contact</div>
+        <div class="bd">
+          <div><strong>Address:</strong> Directorate of Public Health, Govt. of Sindh</div>
+          <div><strong>Phone:</strong> +92‑21‑XXXXXXX</div>
+          <div><strong>Email:</strong> pdsru@sindh.gov.pk</div>
+          <div><strong>Website:</strong> www.pdsru.sindh.gov.pk</div>
+        </div>
+      </div>
+      <!-- Media / Inquiry card removed as requested -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;background:#fff">
+      <div>© <span id="y"></span> PDSRU Sindh. All rights reserved.</div>
+      <div><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Accessibility</a></div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // Contact form validation and success message (only when elements exist)
+    (function(){
+      const sendBtn = document.getElementById('send');
+      const nameEl = document.getElementById('contact-name');
+      const emailEl = document.getElementById('contact-email');
+      const msgEl = document.getElementById('contact-msg');
+      const sentEl = document.getElementById('sent');
+      if(!sendBtn || !nameEl || !emailEl || !msgEl || !sentEl) return; // form removed or incomplete
+      sendBtn.addEventListener('click', ()=>{
+        const name = nameEl.value.trim();
+        const email = emailEl.value.trim();
+        const msg = msgEl.value.trim();
+        if(!name){ alert('Please enter your name'); nameEl.focus(); return; }
+        if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ alert('Please enter a valid email'); emailEl.focus(); return; }
+        if(!msg){ alert('Please enter a message'); msgEl.focus(); return; }
+        sentEl.style.display='block';
+        // In a real site, here we would POST to a server endpoint.
+      });
+    })();
+
+    const q = document.getElementById('q');
+    const dist = document.getElementById('dist');
+    const rows = Array.from(document.querySelectorAll('#tbl tbody tr'));
+    function applyFilter(){
+      const s = (q?.value || '').toLowerCase();
+      const d = (dist?.value || '').toLowerCase();
+      rows.forEach(r=>{ const t=r.innerText.toLowerCase(); r.style.display = (!s || t.includes(s)) && (!d || t.includes(d)) ? '' : 'none';});
+    }
+    if(q) q.addEventListener('input', applyFilter);
+    if(dist) dist.addEventListener('change', applyFilter);
+
+    // bilingual text (simple, formal)
+    const UR = { brand:'پی ڈی ایس آر یو سندھ — صوبائی ڈیزیز سرویلنس اور ریسپانس یونٹ', tag:'بر وقت شناخت · فوری ردِعمل · محفوظ سندھ', hero:'صوبائی پبلک ہیلتھ سرویلنس — سندھ', lead:'PDSRU سندھ میں IDSR (DHIS2) کی ہفتہ وار رپورٹنگ، ہاٹ لائن/میڈیا لسننگ اور لیبارٹری تصدیق کو یکجا کر کے بروقت نشاندہی اور فیلڈ رسپانس کو ممکن بناتا ہے۔', idsr:'مشکوک کیسز', conf:'تصدیقی شرح', ob:'فعال وبائیں', time:'بر وقت رپورٹنگ', about:'PDSRU صوبہ بھر میں ڈیزیز انٹیلی جنس اور آؤٹ بریک رسپانس کی نگرانی کرتا ہے؛ ایونٹ بیسڈ ہاٹ لائن، DHIS2 پر IDSR، لیب نیٹ ورکس اور IHR (2005) کے تحت ون ہیلتھ تعاون۔'};
+    const EN = { brand:'PDSRU Sindh — Provincial Disease Surveillance & Response Unit', tag:'Early detection · Rapid response · Safer Sindh', hero:'Provincial Public Health Surveillance — Sindh', lead:'PDSRU integrates indicator‑based IDSR reporting on DHIS2 with event‑based hotlines and laboratory confirmation to find outbreaks early and direct field response across all districts of Sindh.', idsr:'Suspected cases', conf:'Confirmation rate', ob:'Active outbreaks', time:'Reporting timeliness', about:'PDSRU Sindh oversees disease intelligence and outbreak response province‑wide; event‑based hotlines, IDSR on DHIS2, laboratory coordination, and One Health partners under IHR (2005).'};
+    const toggle = document.getElementById('toggle');
+    let urdu=false;
+    function applyLang(){
+      const L = urdu? UR: EN;
+      document.getElementById('brand').textContent=L.brand;
+      document.getElementById('tag').textContent=L.tag;
+      document.getElementById('hero').textContent=L.hero;
+      document.getElementById('lead').textContent=L.lead;
+      document.getElementById('k1').textContent=L.idsr;
+      document.getElementById('k2').textContent=L.conf;
+      document.getElementById('k3').textContent=L.ob;
+      document.getElementById('k4').textContent=L.time;
+      document.getElementById('aboutp').textContent=L.about;
+      document.documentElement.setAttribute('dir', urdu? 'rtl':'ltr');
+      document.body.style.textAlign = urdu? 'right':'left';
+    }
+    applyLang();
+    toggle.addEventListener('click',()=>{ urdu=!urdu; toggle.classList.toggle('on', urdu); toggle.setAttribute('aria-checked', String(urdu)); applyLang(); });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mainNav = document.getElementById('mainNav');
+    menuBtn && menuBtn.addEventListener('click', ()=>{
+      const open = mainNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+
+    // Report a Case modal (simple accessible dialog)
+    const cta = document.getElementById('cta');
+    const body = document.body;
+    // create modal markup
+    const backdrop = document.createElement('div'); backdrop.className='modal-backdrop'; backdrop.id='modalBackdrop';
+    backdrop.innerHTML = `
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="hd"><div style="padding:16px"><h3 id="modalTitle">Report a Case</h3></div></div>
+        <div class="bd" style="padding:16px;display:grid;gap:10px">
+          <label class="sr-only" for="r-name">Name</label>
+          <input id="r-name" placeholder="Reporter name" />
+          <label class="sr-only" for="r-phone">Phone / Email</label>
+          <input id="r-phone" placeholder="Phone or email" />
+          <label class="sr-only" for="r-details">Details</label>
+          <textarea id="r-details" placeholder="Brief details (what, when, where)"></textarea>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn" id="r-cancel">Cancel</button>
+            <button class="btn primary" id="r-submit">Submit</button>
+          </div>
+        </div>
+      </div>`;
+    body.appendChild(backdrop);
+
+    function openModal(){ backdrop.classList.add('show'); backdrop.querySelector('.modal').classList.add('show'); backdrop.querySelector('#r-name').focus(); }
+    function closeModal(){ backdrop.classList.remove('show'); backdrop.querySelector('.modal').classList.remove('show'); cta.focus(); }
+    cta?.addEventListener('click', openModal);
+    backdrop.addEventListener('click', (e)=>{ if(e.target===backdrop) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && backdrop.classList.contains('show')) closeModal(); });
+    backdrop.addEventListener('click', (e)=>{
+      if(e.target && e.target.id==='r-cancel') closeModal();
+      if(e.target && e.target.id==='r-submit'){
+        // very small client-side check
+        const details = backdrop.querySelector('#r-details').value.trim();
+        if(!details){ alert('Please provide brief details'); backdrop.querySelector('#r-details').focus(); return; }
+        closeModal();
+        alert('Thank you — the report has been recorded (demo).');
+      }
+    });
+  </script>
+  <!-- Charts and 3D visuals (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
+  <script>
+    // Render weekly chart (small, responsive)
+    (function(){
+      const ctx = document.getElementById('weeklyChart');
+      if(!ctx) return;
+      try{
+        const labels = ['W27','W28','W29','W30','W31','W32'];
+        const data = [60,78,72,95,85,100];
+        const chart = new Chart(ctx.getContext('2d'), {
+          type: 'bar',
+          data: { labels: labels, datasets: [{ label: 'Cases', data: data, backgroundColor: 'rgba(10,122,61,0.9)', borderRadius:6, barPercentage:0.6 }]},
+          options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}}, y:{beginAtZero:true}} }
+        });
+      }catch(e){ /* gracefully fail */ }
+    })();
+
+    // Small rotating sphere using Three.js (disabled on very small screens)
+    (function(){
+      const wrap = document.getElementById('threeWrap');
+      if(!wrap) return;
+      if(window.matchMedia && window.matchMedia('(max-width:600px)').matches) { wrap.style.display='none'; return; }
+      try{
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+        const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+        renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        wrap.appendChild(renderer.domElement);
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshStandardMaterial({ color:0x0a7a3d, metalness:0.2, roughness:0.6 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        const light = new THREE.DirectionalLight(0xffffff, 0.9); light.position.set(5,5,5); scene.add(light);
+        const amb = new THREE.AmbientLight(0xffffff, 0.4); scene.add(amb);
+        camera.position.set(0,0,3);
+        function onResize(){ renderer.setSize(wrap.clientWidth, wrap.clientHeight); camera.aspect = wrap.clientWidth / wrap.clientHeight; camera.updateProjectionMatrix(); }
+        window.addEventListener('resize', onResize);
+        let t=0;
+        function animate(){ t+=0.01; sphere.rotation.y = t; sphere.rotation.x = Math.sin(t/3)*0.2; renderer.render(scene, camera); requestAnimationFrame(animate); }
+        animate();
+      }catch(e){ wrap.style.display='none'; }
+    })();
+  </script>
+</body>
+</html>
