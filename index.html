@@ -163,7 +163,8 @@
       /* Convert table to cards on mobile */
       #tbl{display:none}
       .alerts-header{margin-bottom:16px}
-      .alerts-cards{display:grid;gap:12px;padding:16px}
+      .alerts-header input, .alerts-header select{font-size:15px;height:44px}
+      .alerts-cards{display:grid;gap:12px;padding:16px;min-height:100px}
       .alert-card{background:#fff;border:1px solid var(--line);padding:16px;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
       .alert-card .title{font-weight:600;color:var(--ink);font-size:16px;margin-bottom:8px}
       .alert-card .location{color:var(--text);margin-bottom:4px}
@@ -469,12 +470,30 @@
 
     const q = document.getElementById('q');
     const dist = document.getElementById('dist');
-    const rows = Array.from(document.querySelectorAll('#tbl tbody tr'));
-    function applyFilter(){
+    
+    function applyFilter() {
       const s = (q?.value || '').toLowerCase();
       const d = (dist?.value || '').toLowerCase();
-      rows.forEach(r=>{ const t=r.innerText.toLowerCase(); r.style.display = (!s || t.includes(s)) && (!d || t.includes(d)) ? '' : 'none';});
+      
+      // Handle both table rows and cards
+      const rows = Array.from(document.querySelectorAll('#tbl tbody tr'));
+      const cards = Array.from(document.querySelectorAll('.alert-card'));
+      
+      if (window.matchMedia('(max-width:600px)').matches) {
+        // Filter cards on mobile
+        cards.forEach(card => {
+          const cardText = card.innerText.toLowerCase();
+          card.style.display = (!s || cardText.includes(s)) && (!d || cardText.includes(d)) ? '' : 'none';
+        });
+      } else {
+        // Filter table rows on desktop
+        rows.forEach(row => {
+          const rowText = row.innerText.toLowerCase();
+          row.style.display = (!s || rowText.includes(s)) && (!d || rowText.includes(d)) ? '' : 'none';
+        });
+      }
     }
+    
     if(q) q.addEventListener('input', applyFilter);
     if(dist) dist.addEventListener('change', applyFilter);
 
@@ -537,6 +556,12 @@
     (function(){
       const tbl = document.getElementById('tbl');
       if(!tbl) return;
+      
+      // Initial call to applyFilter to handle any existing search/filter
+      setTimeout(() => {
+        if(window.applyFilter) window.applyFilter();
+      }, 100);
+      
       function makeCards(){
         // if not small screen, restore table visibility
         if(!(window.matchMedia && window.matchMedia('(max-width:600px)').matches)){
