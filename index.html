@@ -62,9 +62,11 @@
     .menu-btn{display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:8px;border:1px solid var(--line);background:#fff}
     .menu-btn svg{width:20px;height:20px}
     @media(max-width:979px){
-      nav{position:absolute;right:16px;top:64px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,.08);display:none;min-width:180px}
+      /* Mobile nav: fixed drawer to avoid layout jumps and odd focus behavior */
+      nav{position:fixed;left:12px;right:12px;top:56px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,.12);display:none;max-width:calc(100% - 24px);z-index:30}
       nav.open{display:block}
-      nav a{display:block;padding:8px 0}
+      nav a{display:block;padding:12px 8px;border-radius:8px}
+      nav a:focus{outline:3px solid rgba(10,122,61,.12);background:linear-gradient(180deg,rgba(10,122,61,.03),transparent)}
     }
 
     /* Modal */
@@ -118,7 +120,8 @@
       header .wrap{padding:12px}
       .wrap{padding:12px}
       .top{gap:8px}
-      .crest{--s:40px}
+      /* Make crest smaller and brand text truncated on phones */
+      .crest{--s:36px}
       .hero{padding:20px 12px}
       .hero-grid{gap:14px}
       .hero-grid > div:first-child h1{font-size:20px}
@@ -127,7 +130,8 @@
       .v{font-size:22px}
       .programs{grid-template-columns:1fr;gap:10px}
       .program{padding:12px}
-      .btn{padding:10px;border-radius:10px;width:100%;display:inline-block;text-align:center}
+      /* Make primary CTAs full-width and easier to tap */
+      .btn{padding:12px;border-radius:10px;width:100%;display:inline-block;text-align:center;font-size:15px}
       .btn.primary{padding:10px}
       .menu-btn{display:inline-flex}
       nav{position:static;display:none}
@@ -144,7 +148,18 @@
       .bd{padding:12px}
       .hd{padding:12px}
       .bars{height:120px}
+      /* Team card adjustments for mobile */
+      .team-pic{width:56px;height:56px;flex:0 0 56px}
+      .team-info h4{font-size:15px}
+      /* Alerts cards (created by JS) */
+      .alerts-cards{display:grid;grid-template-columns:1fr;gap:10px;padding:8px}
+      .alert-card{background:#fff;border:1px solid var(--line);padding:12px;border-radius:12px}
+      .alert-card .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:8px}
     }
+
+    /* Mini pie styles */
+  .mini-pie-wrap{max-width:320px;margin:20px auto}
+  @media(max-width:600px){ .mini-pie-wrap{max-width:280px} }
     /* Team section */
   .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
   .team-member{padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;gap:12px;align-items:flex-start}
@@ -154,6 +169,13 @@
     .team-info p{margin:0;color:var(--muted);font-size:14px}
     @media(max-width:800px){.team-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.team-grid{grid-template-columns:1fr}.team-member{align-items:center}}
+
+    /* Header brand truncation */
+    @media(max-width:560px){
+      .brand{align-items:center}
+      #brand{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+      #tag{display:none}
+    }
   </style>
 </head>
 <body>
@@ -178,11 +200,7 @@
         <a href="#resources">Resources</a>
         <a href="#contact">Contact</a>
       </nav>
-      <div class="lang">
-        <span class="tag">EN</span>
-        <div id="toggle" class="switch" role="switch" aria-checked="false"><div class="knob"></div></div>
-        <span class="tag">اردو</span>
-      </div>
+      <!-- language selector removed: site is English-only -->
     </div>
   </header>
 
@@ -192,19 +210,29 @@
         <h1 id="hero">Provincial Public Health Surveillance — Sindh</h1>
         <p id="lead" style="margin-top:8px;max-width:70ch">PDSRU integrates indicator‑based IDSR reporting on DHIS2 with event‑based hotlines and laboratory confirmation to find outbreaks early and direct field response across all districts of Sindh.</p>
         <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
-          <button class="btn primary" id="cta">Report a Case</button>
-          <button class="btn" id="cta2">Subscribe to Alerts</button>
+            <button class="btn primary" id="cta">Report a Case</button>
+            <button class="btn" id="cta2">Subscribe to Alerts</button>
+        </div>
+        <div class="mini-pie-wrap" style="margin:20px auto 6px;text-align:center">
+          <canvas id="miniPie" aria-label="Recent alerts distribution" style="width:280px;height:180px;display:block;margin:0 auto"></canvas>
         </div>
       </div>
       <div class="card">
         <div class="hd">This Week in Sindh</div>
   <div class="bd">
-            <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-              <div id="visuals" style="flex:1 1 220px;min-width:220px">
-                <canvas id="weeklyChart" aria-label="Weekly cases chart" style="width:100%;height:160px"></canvas>
+              <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+                <div id="visuals" style="flex:1 1 220px;min-width:220px">
+                  <!-- Placeholder shown first for a cleaner initial impression -->
+                  <div id="visualPlaceholder" style="width:100%;height:160px;border-radius:8px;background:linear-gradient(180deg,#f3f4f6,#ffffff);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700">
+                    <div style="text-align:center">
+                      <div style="font-size:14px;margin-bottom:6px">Weekly cases</div>
+                      <button id="loadVisuals" class="btn">Load visuals</button>
+                    </div>
+                  </div>
+                  <canvas id="weeklyChart" aria-label="Weekly cases chart" style="width:100%;height:160px;display:none"></canvas>
+                </div>
+                <div id="threeWrap" style="width:120px;height:120px;margin-left:8px;display:none"></div>
               </div>
-              <div id="threeWrap" style="width:120px;height:120px;margin-left:8px"></div>
-            </div>
             <div class="kpis">
             <div class="kpi"><div class="k" id="k1">Suspected cases</div><div class="v">312</div></div>
             <div class="kpi"><div class="k" id="k2">Confirmation rate</div><div class="v">24%</div></div>
@@ -239,17 +267,17 @@
         </div>
       </div>
       <div class="team-member">
-        <div class="team-pic" id="pic-fahad"><img src="fahad.png" alt="Dr Fahad"></div>
+        <div class="team-pic" id="pic-fahad"><img src="fahad.png" alt="Dr Fahad Memon"></div>
         <div class="team-info">
           <h4>Dr Fahad</h4>
           <p id="bio-fahad">Dr Fahad Dr Fahad Ahmed Memon is a public-health professional working at the PDSRU in Sindh, Pakistan. He holds the fellowship of the Field Epidemiology & Laboratory Training Programme (FELTP) and serves in a leadership/support role (“Assistant Director / FETP Fellow”) in surveillance, outbreak investigation and response..</p>
         </div>
       </div>
       <div class="team-member">
-        <div class="team-pic" id="pic-fahad"><img src="asifchanna.png" alt="Dr Asif Channa"></div>
+        <div class="team-pic" id="pic-Asif_Channa"><img src="asifchanna.png" alt="Dr Asif Channa"></div>
         <div class="team-info">
           <h4>Dr Asif Channa</h4>
-          <p id="bio-asifch">Dr Asif Channa supports surveillance and field response activities at PDSRU. Provide a photo and details and I'll update.</p>
+          <p id="bio-asifch">Dr Asif Channa supports surveillance and field response activities at PDSRU.</p>
         </div>
       </div>
     </div>
@@ -387,27 +415,7 @@
     if(q) q.addEventListener('input', applyFilter);
     if(dist) dist.addEventListener('change', applyFilter);
 
-    // bilingual text (simple, formal)
-    const UR = { brand:'پی ڈی ایس آر یو سندھ — صوبائی ڈیزیز سرویلنس اور ریسپانس یونٹ', tag:'بر وقت شناخت · فوری ردِعمل · محفوظ سندھ', hero:'صوبائی پبلک ہیلتھ سرویلنس — سندھ', lead:'PDSRU سندھ میں IDSR (DHIS2) کی ہفتہ وار رپورٹنگ، ہاٹ لائن/میڈیا لسننگ اور لیبارٹری تصدیق کو یکجا کر کے بروقت نشاندہی اور فیلڈ رسپانس کو ممکن بناتا ہے۔', idsr:'مشکوک کیسز', conf:'تصدیقی شرح', ob:'فعال وبائیں', time:'بر وقت رپورٹنگ', about:'PDSRU صوبہ بھر میں ڈیزیز انٹیلی جنس اور آؤٹ بریک رسپانس کی نگرانی کرتا ہے؛ ایونٹ بیسڈ ہاٹ لائن، DHIS2 پر IDSR، لیب نیٹ ورکس اور IHR (2005) کے تحت ون ہیلتھ تعاون۔'};
-    const EN = { brand:'PDSRU Sindh — Provincial Disease Surveillance & Response Unit', tag:'Early detection · Rapid response · Safer Sindh', hero:'Provincial Public Health Surveillance — Sindh', lead:'PDSRU integrates indicator‑based IDSR reporting on DHIS2 with event‑based hotlines and laboratory confirmation to find outbreaks early and direct field response across all districts of Sindh.', idsr:'Suspected cases', conf:'Confirmation rate', ob:'Active outbreaks', time:'Reporting timeliness', about:'PDSRU Sindh oversees disease intelligence and outbreak response province‑wide; event‑based hotlines, IDSR on DHIS2, laboratory coordination, and One Health partners under IHR (2005).'};
-    const toggle = document.getElementById('toggle');
-    let urdu=false;
-    function applyLang(){
-      const L = urdu? UR: EN;
-      document.getElementById('brand').textContent=L.brand;
-      document.getElementById('tag').textContent=L.tag;
-      document.getElementById('hero').textContent=L.hero;
-      document.getElementById('lead').textContent=L.lead;
-      document.getElementById('k1').textContent=L.idsr;
-      document.getElementById('k2').textContent=L.conf;
-      document.getElementById('k3').textContent=L.ob;
-      document.getElementById('k4').textContent=L.time;
-      document.getElementById('aboutp').textContent=L.about;
-      document.documentElement.setAttribute('dir', urdu? 'rtl':'ltr');
-      document.body.style.textAlign = urdu? 'right':'left';
-    }
-    applyLang();
-    toggle.addEventListener('click',()=>{ urdu=!urdu; toggle.classList.toggle('on', urdu); toggle.setAttribute('aria-checked', String(urdu)); applyLang(); });
+    // Site is English-only; bilingual code removed.
 
     // Mobile menu toggle
     const menuBtn = document.getElementById('menuBtn');
@@ -415,6 +423,11 @@
     menuBtn && menuBtn.addEventListener('click', ()=>{
       const open = mainNav.classList.toggle('open');
       menuBtn.setAttribute('aria-expanded', String(open));
+      // Focus first link inside nav to avoid jumping/odd rendering on mobile
+      if(open){
+        const firstLink = mainNav.querySelector('a');
+        firstLink && firstLink.focus();
+      }
     });
 
     // Report a Case modal (simple accessible dialog)
@@ -456,31 +469,109 @@
       }
     });
   </script>
-  <!-- Charts and 3D visuals (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js"></script>
   <script>
-    // Render weekly chart (small, responsive)
+    // Convert alerts table rows to card list on small screens for better readability and tap targets
     (function(){
-      const ctx = document.getElementById('weeklyChart');
-      if(!ctx) return;
+      const tbl = document.getElementById('tbl');
+      if(!tbl) return;
+      function makeCards(){
+        // if not small screen, restore table visibility
+        if(!(window.matchMedia && window.matchMedia('(max-width:600px)').matches)){
+          const wrapper = document.querySelector('#tbl').closest('.card');
+          const cards = wrapper.querySelector('.alerts-cards');
+          if(cards){ cards.remove(); wrapper.querySelector('.bd').style.display = ''; tbl.style.display = ''; }
+          return;
+        }
+        const wrapper = document.querySelector('#tbl').closest('.card');
+        if(!wrapper) return;
+        // avoid recreating
+        if(wrapper.querySelector('.alerts-cards')) return;
+        const rows = Array.from(tbl.tBodies[0].rows);
+        const cardsWrap = document.createElement('div');
+        cardsWrap.className = 'alerts-cards';
+        rows.forEach(r=>{
+          const cells = Array.from(r.cells).map(c=>c.innerText.trim());
+          const card = document.createElement('article'); card.className='alert-card';
+          card.innerHTML = `<strong>${cells[1] || ''}</strong><div style="font-weight:600;margin-top:6px">${cells[2]||''} · ${cells[0]||''}</div><div class='meta'><span>${cells[3]||''}</span><span>Level ${cells[4]||''}</span></div>`;
+          cardsWrap.appendChild(card);
+        });
+        // hide table and insert cards
+        tbl.style.display = 'none';
+        wrapper.querySelector('.bd').style.display = 'block';
+        wrapper.querySelector('.bd').insertBefore(cardsWrap, wrapper.querySelector('.bd').firstChild);
+      }
+      // run on load and resize
+      makeCards();
+      window.addEventListener('resize', ()=>{ setTimeout(makeCards, 120); });
+    })();
+  </script>
+  <!-- Charts and 3D visuals (CDN) -->
+  <script>
+    // Dynamic script loader
+    function loadScript(src){
+      return new Promise((resolve, reject)=>{
+        const s = document.createElement('script'); s.src = src; s.async = true;
+        s.onload = ()=>resolve(); s.onerror = ()=>reject(new Error('Failed to load '+src));
+        document.head.appendChild(s);
+      });
+    }
+
+    // Chart initialization (lazy)
+    async function initChart(){
+      const ctxEl = document.getElementById('weeklyChart');
+      if(!ctxEl) return;
       try{
+        if(typeof Chart === 'undefined'){
+          await loadScript('https://cdn.jsdelivr.net/npm/chart.js');
+        }
         const labels = ['W27','W28','W29','W30','W31','W32'];
         const data = [60,78,72,95,85,100];
-        const chart = new Chart(ctx.getContext('2d'), {
+        ctxEl.style.display = '';
+        document.getElementById('visualPlaceholder')?.remove();
+        new Chart(ctxEl.getContext('2d'), {
           type: 'bar',
           data: { labels: labels, datasets: [{ label: 'Cases', data: data, backgroundColor: 'rgba(10,122,61,0.9)', borderRadius:6, barPercentage:0.6 }]},
           options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}}, y:{beginAtZero:true}} }
         });
-      }catch(e){ /* gracefully fail */ }
-    })();
+      }catch(e){ console.warn('Chart load failed', e); }
+    }
 
-    // Small rotating sphere using Three.js (disabled on very small screens)
-    (function(){
+    // Mini pie showing disease distribution from alerts table
+    async function initMiniPie(){
+      const pieEl = document.getElementById('miniPie');
+      if(!pieEl) return;
+      try{
+        if(typeof Chart === 'undefined'){
+          await loadScript('https://cdn.jsdelivr.net/npm/chart.js');
+        }
+        // Aggregate diseases from table rows
+        const rows = Array.from(document.querySelectorAll('#tbl tbody tr'));
+        const counts = {};
+        rows.forEach(r=>{ const disease = r.cells[1]?.innerText.trim() || 'Other'; counts[disease] = (counts[disease]||0)+1; });
+        const labels = Object.keys(counts);
+        const data = labels.map(l=>counts[l]);
+        new Chart(pieEl.getContext('2d'), {
+          type: 'doughnut',
+          data: { labels, datasets:[{ data, backgroundColor: ['#0a7a3d','#0b75c9','#f59e0b','#ef4444','#6366f1','#10b981']}]},
+          options:{
+            plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,font:{size:12}}}},
+            maintainAspectRatio:true,
+            cutout:'35%'
+          }
+        });
+      }catch(e){ console.warn('MiniPie failed', e); }
+    }
+
+    // Three.js initialization (lazy)
+    async function initThree(){
       const wrap = document.getElementById('threeWrap');
       if(!wrap) return;
       if(window.matchMedia && window.matchMedia('(max-width:600px)').matches) { wrap.style.display='none'; return; }
       try{
+        if(typeof THREE === 'undefined'){
+          await loadScript('https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.min.js');
+        }
+        wrap.style.display = '';
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
         const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
@@ -499,10 +590,27 @@
         let t=0;
         function animate(){ t+=0.01; sphere.rotation.y = t; sphere.rotation.x = Math.sin(t/3)*0.2; renderer.render(scene, camera); requestAnimationFrame(animate); }
         animate();
-      }catch(e){ wrap.style.display='none'; }
+      }catch(e){ wrap.style.display='none'; console.warn('Three failed', e); }
+    }
+
+    // Wire Load visuals button and auto-load when visuals enter viewport
+    (function(){
+      const btn = document.getElementById('loadVisuals');
+      const visuals = document.getElementById('visuals');
+      let loaded=false;
+  async function loadAll(){ if(loaded) return; loaded=true; await Promise.all([initChart(), initThree(), initMiniPie()]); }
+      if(btn) btn.addEventListener('click', loadAll);
+      // Auto-load when placeholder scrolls into view (but only once)
+      if('IntersectionObserver' in window && visuals){
+        const obs = new IntersectionObserver((entries, o)=>{
+          entries.forEach(e=>{ if(e.isIntersecting){ loadAll(); o.disconnect(); } });
+        },{rootMargin:'200px'});
+        obs.observe(visuals);
+      }
     })();
   </script>
 </body>
 </html>
+
 
 
